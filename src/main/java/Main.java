@@ -6,27 +6,35 @@ public class Main {
 	public static void main(String[] args) {
 		
 		BankAccount jerry = new BankAccount("Jerry", Currency.USD, 100);
-		BankAccount chad = new BankAccount("Chad", Currency.BTC, 3);
+		BankAccount chad = new BankAccount("Chad", Currency.BTC, 0xFFFF); // Very rich guy, he has 65.535 BTC.
 		
-		System.out.printf("Jerry's balance: %s\n", jerry.getCurrency().format(jerry.getBalance()));
-		System.out.printf("Chad's balance: %s.\n", chad.getCurrency().format(chad.getBalance()));
+		printBalance(jerry);
+		printBalance(chad);
 		
 		// Chad sends 1 BTC to Jerry.
 		chad.transfer(jerry, 1);
 		
-		System.out.printf("Jerry's balance: %s\n", jerry.getCurrency().format(jerry.getBalance()));
-		System.out.printf("Chad's balance: %s.\n", chad.getCurrency().format(chad.getBalance()));
+		printBalance(jerry);
+		printBalance(chad);
 		
-		// Jerry sends 10 USD to Chad.
+		// Jerry sends 10 USD to Chad and changes his currency to EUR.
 		jerry.transfer(chad, 10);
+		jerry.setCurrency(Currency.EUR);
 		
-		System.out.printf("Jerry's balance: %s\n", jerry.getCurrency().format(jerry.getBalance()));
-		System.out.printf("Chad's balance: %s.\n", chad.getCurrency().format(chad.getBalance()));
+		printBalance(jerry);
+		printBalance(chad);
 		
 		// Chad changes his currency to DKK.
 		chad.setCurrency(Currency.DKK);
 		
-		System.out.printf("Jerry's balance: %s\n", jerry.getCurrency().format(jerry.getBalance()));
-		System.out.printf("Chad's balance: %s\n", chad.getCurrency().format(chad.getBalance()));
+		printBalance(jerry);
+		printBalance(chad);
+	}
+	
+	public static void printBalance(BankAccount account) {
+		
+		System.out.printf("%s's balance: %s\n",
+						  account.getName(),
+						  account.getCurrency().format(account.getBalance()));
 	}
 }

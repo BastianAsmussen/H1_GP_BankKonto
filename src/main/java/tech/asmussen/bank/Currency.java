@@ -1,11 +1,13 @@
 package tech.asmussen.bank;
 
+import java.text.DecimalFormat;
+
 public enum Currency {
 	
 	USD("$", true, 1),
-	EUR("€", true, 0.94),
+	EUR("€", false, 0.94),
 	DKK(" kr.", false, 0.14),
-	BTC("₿", true, 24_657.20);
+	BTC("₿", false, 24_657.2);
 	
 	private final String symbol;
 	private final boolean isPrefixSymbol;
@@ -49,13 +51,15 @@ public enum Currency {
 	
 	public String format(double amount) {
 		
+		final DecimalFormat formatter = new DecimalFormat("#,###.##");
+		
 		// symbols[0] = prefix, symbols[1] = suffix.
-		String[] symbols = new String[] {
+		final String[] symbols = new String[] {
 				isPrefixSymbol ? symbol : "",
 				isPrefixSymbol ? "" : symbol
 		};
 		
-		return String.format("%s%.2f%s", symbols[0], amount, symbols[1]);
+		return String.format("%s%s%s", symbols[0], formatter.format(amount), symbols[1]);
 	}
 	
 	@Override
